@@ -1,0 +1,28 @@
+{
+  "name": "duck-rescue",
+  "private": true,
+  "scripts": {
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix"
+  },
+  "devDependencies": {
+    "@thesis-co/eslint-config": "^0.6.1",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@types/dotenv-safe": "^8.1.6",
+    "@keep-network/hardhat-helpers": "^0.7.1",
+    "@nomicfoundation/hardhat-ethers": "^3.0.5",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "eslint": "^8.57.1",
+    "ts-node": "^10.9.2",
+    "dotenv-safe": "^9.1.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "ethers": "^6.12.1",
+    "hardhat": "^2.24.1",
+    "@safe-global/safe-contracts": "1.4.1-build.0"
+  }
+}
