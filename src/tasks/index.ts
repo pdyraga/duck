@@ -4,14 +4,12 @@ async function getTxHash(
   safeAddress: string,
   to: string,
   data: string,
-  operation: number
+  operation: number,
+  nonce: number
 ): Promise<string> {
   const { ethers } = hre
 
   const safe = await ethers.getContractAt("Safe", safeAddress)
-  const nonce = await safe.nonce()
-
-  console.log("using nonce " + nonce)
 
   const txData = {
     to,
@@ -45,24 +43,36 @@ task("safe:getHash", "Calculates hash to sign for the transfer function")
   .setAction(async (args, hre) => {
     const { ethers } = hre
 
-    const amount = "5127773253058660136"
+    const operation = 0 // Call
+
+    const oldSafe = "0x65e9B345b833ae8b59d88076010767BeE2396C7A"
     const newSafe = "0xC3548BE31952fF6a564BB593120D4F6e679152b4"
+
+    const token = "0x7b7C000000000000000000000000000000000000"
+
+    const amount1 =    "1000000000000000"
+    const amount2 = "5126773253058660136"
 
     const abi = [
       "function transfer(address to, uint256 value) public returns (bool)",
     ]
     const iface = new ethers.Interface(abi)
-    const data = iface.encodeFunctionData("transfer", [
+
+    const data1 = iface.encodeFunctionData("transfer", [
       newSafe,
-      amount,
+      amount1,
     ])
-
-    const oldSafe = "0x65e9B345b833ae8b59d88076010767BeE2396C7A"
-    const token = "0x7b7C000000000000000000000000000000000000"
-    const operation = 0 // Call
-
-    const txHash = await getTxHash(oldSafe, token, data, operation)
+    const txHash1 = await getTxHash(oldSafe, token, data1, operation, 0)
     
-    console.log(`transfer data: ${data}`)
-    console.log(`hash to sign: ${txHash}`)
+    console.log(`first transfer data: ${data1}`)
+    console.log(`first hash to sign: ${txHash1}`)
+
+    const data2 = iface.encodeFunctionData("transfer", [
+      newSafe,
+      amount2,
+    ])
+    const txHash2 = await getTxHash(oldSafe, token, data2, operation, 1)
+    
+    console.log(`first transfer data: ${data2}`)
+    console.log(`first hash to sign: ${txHash2}`)
   })
